@@ -58,3 +58,32 @@ To keep the workflow fast while preventing AI hallucination:
 3. **`[F2V 首尾帧桥接]` (High-Precision Morph — ~10% of shots)**
    - **When to use**: A signature "impossible transition" (e.g., ancient clay porcelain morphing into a modern skyscraper, or raw ingredients assembling into the final product bottle).
    - **Workflow**: Use Shot N's last frame (or generated Anchor Frame A) as Start Frame, and Shot N+1's target composition (Anchor Frame B) as End Frame in Google Flow.
+
+---
+
+## 4. Google Flow (Veo) Native Audio, Voiceover & Subtitle Prompting (音画配音一体化规范)
+
+Google Flow natively generates synchronized **Voiceover (旁白/人声)**, **Foley/SFX (动作环境音效)**, **Background Music (BGM)**, and **On-screen Typography/Subtitles (字幕/落版字)** directly from the video prompt.
+
+To prevent the narrator's voice from changing between Clip 1 and Clip 2, every project MUST define a **Global Voice & Audio Lock (`voice_and_audio_lock_en`)** alongside the Global Visual Suffix, and embed audio/voice/subtitle instructions directly into every shot's `flow_video_prompt_en`.
+
+### 4.1 Global Voice & Audio Locks (跨镜头配音音色锁)
+
+- **Oriental Cultural & Documentary Narrator (人文纪录片/文旅磁性旁白)**
+  - `Audio Lock: Consistent warm, deep, resonant male Mandarin Chinese narrator voice (CCTV documentary style, calm poetic cadence, crisp studio condenser mic), accompanied by ethereal Guqin harmonics and deep cinematic cello score.`
+- **Luxury Brand TVC Narrator (高奢品牌/静奢风女声旁白)**
+  - `Audio Lock: Consistent intimate, velvety, sophisticated female Mandarin Chinese voiceover (calm luxury brand ambassador tone, gentle breathy texture, slow deliberate pacing), backed by minimalist ambient piano and warm analog synth pad.`
+- **Tech & Product Launch Narrator (科技数码/现代极客旁白)**
+  - `Audio Lock: Consistent crisp, confident, modern mid-range Mandarin Chinese narrator voice (Apple keynote commercial cadence, clean articulation), paired with precision high-tech foley sound design and deep sub-bass pulse.`
+
+### 4.2 Standard All-in-One Prompt Structure for Google Flow
+
+Every `flow_video_prompt_en` MUST weave Visuals, Camera, Native Voiceover, Synchronized SFX/Music, and Subtitle cues into one cohesive prompt block ready to paste into Google Flow:
+
+```text
+[Visual & Camera]: <Detailed continuous camera movement and visual action across the timeline...>
+[Native Audio & SFX]: Synchronized high-fidelity foley sound of <specific actions at specific moments>, blending with <BGM style and emotional progression>.
+[Voiceover]: A consistent <Voice Lock Profile> speaks in clear, standard Mandarin Chinese: "<Exact Chinese VO Script>".
+[Subtitles & On-Screen Text]: <Optional clean cinematic subtitles at bottom center reading "<Text>" / or Final title card overlay reading "<Brand Slogan>">.
+[Global Visual Lock]: <Exact Global Style Suffix>
+```

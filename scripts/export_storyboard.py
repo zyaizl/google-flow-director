@@ -4,16 +4,14 @@ Google Flow Director — Storyboard Export & Interactive HTML Generator
 Reads a structured storyboard JSON specification and outputs:
 1. A comprehensive, production-ready Markdown production sheet (.md)
 2. A self-contained, interactive dark-mode Director's Storyboard Web App (.html)
-   with one-click prompt copying, timeline pacing bars, transition connectors,
-   and audio/VO cues.
+   with one-click prompt copying (All-in-One Visual + Native Voiceover + SFX + Subtitles),
+   timeline pacing bars, transition connectors, and audio/VO cues.
 """
 
 import argparse
 import html
 import json
-import os
 import sys
-from datetime import datetime
 from pathlib import Path
 
 
@@ -29,25 +27,30 @@ def generate_markdown(data: dict) -> str:
     shots = data.get("shots", [])
 
     lines = [
-        f"# 🎬 《{title}》Google Flow 导演执行分镜单",
+        f"# 🎬 《{title}》Google Flow 音画一体导演执行分镜单",
         "",
         f"- **项目类型**：{category}",
         f"- **目标成片总时长**：{total_duration} 秒 | **画幅比例**：`{aspect_ratio}`",
-        f"- **镜头总数**：{len(shots)} 个分镜（适配 Google Flow 5s~8s 生成机制与无缝桥接）",
+        f"- **镜头总数**：{len(shots)} 个分镜单元（原生内嵌：画面运镜 + 中文配音旁白 + 动作音效 + BGM + 字幕指令）",
         f"- **核心创意阐述**：{creative_concept}",
         "",
         "---",
         "",
-        "## 一、 全局视觉圣经 (Global Visual Bible — 一致性锁)",
+        "## 一、 全局音画双锁圣经 (Global Visual & Audio Bible — 跨片段一致性锁)",
         "",
-        "> **使用说明**：以下【全局风格后缀】已自动拼接至下方每个镜头的 Google Flow 英文 Prompt 尾部，确保所有独立生成的视频片段拥有相同的摄影机质感、胶片颗粒、色温与光影逻辑。",
+        "> **使用说明**：以下【全局视觉后缀】与【全局配音音色&配乐锁】已**直接内嵌至下方每个镜头的 Google Flow 一体化 Prompt 中**，确保多段视频不仅画风、色温一致，而且生成的中文旁白音色、语速与背景音乐也浑然一体。",
         "",
         f"- **摄影机与镜头组 (Camera & Lens)**：{visual_bible.get('camera_and_lens', 'ARRI Alexa 65, Anamorphic Lens')}",
         f"- **光影与色彩基底 (Lighting & Color Palette)**：{visual_bible.get('lighting_and_color', 'Golden hour rim light, teal and orange grading')}",
         f"- **材质与空气感 (Texture & Atmosphere)**：{visual_bible.get('texture_and_atmosphere', '35mm film grain, volumetric mist, photorealistic 8k')}",
-        "- **全局强制锁定后缀 (Global Style Suffix)**：",
+        f"- **全局配音人设与音色锁 (Narrator Voice Profile)**：{audio_guide.get('voice_profile_zh', '央视纪录片级浑厚磁性男中音，普通话标准，语速沉稳诗意')}",
+        "- **全局强制视觉锁定后缀 (Global Visual Style Suffix)**：",
         "```text",
         visual_bible.get("style_suffix_en", ""),
+        "```",
+        "- **全局强制配音与配乐锁 (Global Voice & Audio Lock)**：",
+        "```text",
+        audio_guide.get("voice_and_audio_lock_en", audio_guide.get("bgm_prompt_en", "")),
         "```",
         "",
     ]
@@ -63,10 +66,10 @@ def generate_markdown(data: dict) -> str:
         ])
 
     lines.extend([
-        "## 三、 全局声音与音乐指导 (BGM & Soundscape)",
+        "## 三、 全局配乐与声音叙事指导 (BGM & Soundscape)",
         "",
-        f"- **BGM 音乐风格与节奏推进**：{audio_guide.get('bgm_style', '')}",
-        f"- **Suno / Udio 配乐生成 Prompt**：",
+        f"- **BGM 音乐风格与情绪推进**：{audio_guide.get('bgm_style', '')}",
+        f"- **独立配乐备用 Prompt (Suno / Udio)**：",
         "```text",
         audio_guide.get("bgm_prompt_en", ""),
         "```",
@@ -75,29 +78,32 @@ def generate_markdown(data: dict) -> str:
         "",
         "## 四、 分镜时间轴与转场总览表",
         "",
-        "| 镜号 | 时间轴 (成片) | Flow生成时长 | 生成模式 | 景别/运镜 | 画面核心内容 | 转场桥接设计 (衔接下一镜) |",
+        "| 镜号 | 时间轴 (成片) | Flow生成时长 | 生成模式 | 画面核心内容 | 内嵌中文配音 & 字幕 | 转场桥接设计 (衔接下一镜) |",
         "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
     ])
 
     for s in shots:
         lines.append(
             f"| **{s.get('shot_id')}** | `{s.get('timeline')}` ({s.get('edit_duration_sec')}s) | "
-            f"`{s.get('flow_gen_duration_sec', 8)}s` | **{s.get('gen_mode_badge', 'T2V 纯文生')}** | "
-            f"{s.get('camera_movement_zh', '')} | {s.get('visual_summary_zh', '')} | "
+            f"`{s.get('flow_gen_duration_sec', 15)}s` | **{s.get('gen_mode_badge', 'T2V 音画一体')}** | "
+            f"{s.get('visual_summary_zh', '')} | 「{s.get('voiceover_zh', '')}」 | "
             f"{s.get('transition_to_next_zh', '尾帧定格淡出')} |"
         )
 
-    lines.extend(["", "---", "", "## 五、 逐镜 Google Flow 实操指令卡", ""])
+    lines.extend(["", "---", "", "## 五、 逐镜 Google Flow 音画+配音+字幕一体化指令卡", ""])
 
     for idx, s in enumerate(shots, 1):
         lines.extend([
-            f"### 🎞️ {s.get('shot_id')} | {s.get('phase_name', '段落')} (`{s.get('timeline')}` · 成片截取 {s.get('edit_duration_sec')}s / Flow生成 {s.get('flow_gen_duration_sec', 8)}s)",
+            f"### 🎞️ {s.get('shot_id')} | {s.get('phase_name', '段落')} (`{s.get('timeline')}` · Flow生成 {s.get('flow_gen_duration_sec', 15)}s)",
             "",
-            f"- **生成模式**：`{s.get('gen_mode_badge', 'T2V 纯文生')}` — {s.get('gen_mode_reason', '纯文生即可保证高质感')}",
-            f"- **画面与动作拆解 (中文)**：{s.get('visual_detail_zh', '')}",
+            f"- **生成模式**：`{s.get('gen_mode_badge', 'T2V 音画一体')}` — {s.get('gen_mode_reason', '')}",
+            f"- **画面与动作拆解 (中文)**：\n{s.get('visual_detail_zh', '')}",
             f"- **摄影机调度 (Camera Control)**：{s.get('camera_movement_zh', '')}",
+            f"- **内嵌原生中文配音 (Voiceover)**：「{s.get('voiceover_zh', '')}」",
+            f"- **内嵌画面字幕/落版字 (Subtitles & Text)**：{s.get('subtitle_zh', '底部同步显示电影感简体中文字幕')}",
+            f"- **内嵌同步音效与配乐 (Native SFX & BGM)**：{s.get('sfx_zh', '')}",
             "",
-            "#### 📋 Google Flow 视频生成 Prompt（直接复制）",
+            "#### 📋 Google Flow 音画+配音+字幕一体化 Prompt（直接复制进 Flow）",
             "```text",
             s.get("flow_video_prompt_en", ""),
             "```",
@@ -105,10 +111,12 @@ def generate_markdown(data: dict) -> str:
         ])
 
         if s.get("keyframe_image_prompt_en"):
+            kf_raw = s.get("keyframe_image_prompt_en", "")
+            kf_header = "#### 🧩 Flow SceneBuilder 分步延展方案（8s Base + 7s Extend 均含配音与音效）" if "Extend" in kf_raw else "#### 🖼️ 首帧/垫图生成 Prompt（用于 Imagen / Midjourney / Flow Ingredients）"
             lines.extend([
-                "#### 🖼️ 首帧/垫图生成 Prompt（用于 Imagen / Midjourney / Flow Ingredients）",
+                kf_header,
                 "```text",
-                s.get("keyframe_image_prompt_en", ""),
+                kf_raw,
                 "```",
                 "",
             ])
@@ -117,10 +125,6 @@ def generate_markdown(data: dict) -> str:
             "#### 🔗 前后镜头无缝转场执行 (Transition Bridge)",
             f"- **承接上一镜 (Entry State)**：{s.get('entry_bridge_zh', '开篇首镜，从黑场或光影中渐显')}",
             f"- **交接下一镜 (Exit State -> Next)**：**【{s.get('transition_type', 'MATCH_CUT')}】** {s.get('transition_to_next_zh', '')}",
-            "",
-            "#### 🎙️ 声音与旁白 (Audio & Voiceover)",
-            f"- **旁白/字幕文案 (VO)**：「{s.get('voiceover_zh', '（纯画面与音乐呼吸，无旁白）')}」",
-            f"- **环境音效 Prompt (SFX)**：`{s.get('sfx_prompt_en', '')}` ({s.get('sfx_zh', '')})",
             "",
             "---",
             "",
@@ -140,7 +144,6 @@ def generate_html(data: dict) -> str:
     audio_guide = data.get("audio_guide", {})
     shots = data.get("shots", [])
 
-    # Build timeline blocks
     timeline_blocks_html = []
     colors = ["#38bdf8", "#818cf8", "#c084fc", "#f472b6", "#fb7185", "#fbbf24", "#34d399", "#2dd4bf"]
     for i, s in enumerate(shots):
@@ -151,13 +154,12 @@ def generate_html(data: dict) -> str:
         phase = html.escape(s.get("phase_name", ""))
         timeline_blocks_html.append(
             f'<a href="#shot-{i+1}" class="tl-seg" style="width:{pct:.1f}%; --seg-color:{color};" '
-            f'title="{shot_id}: {phase} ({dur}s)">'
+            f'title="{shot_id}: {phase} ({dur:g}s)">'
             f'<span class="tl-id">{shot_id}</span>'
             f'<span class="tl-dur">{dur:g}s</span>'
             f'</a>'
         )
 
-    # Product DNA block
     product_dna_html = ""
     if product_dna and product_dna.get("enabled"):
         product_dna_html = f"""
@@ -186,23 +188,22 @@ def generate_html(data: dict) -> str:
         </section>
         """
 
-    # Shots cards
     shot_cards_html = []
     for i, s in enumerate(shots):
         color = colors[i % len(colors)]
-        mode_badge = html.escape(s.get("gen_mode_badge", "T2V 纯文生"))
+        mode_badge = html.escape(s.get("gen_mode_badge", "T2V 音画一体"))
         is_i2v = "I2V" in mode_badge or "F2V" in mode_badge or "首" in mode_badge or "垫图" in mode_badge
         badge_class = "badge-purple" if is_i2v else "badge-cyan"
 
         kf_html = ""
         if s.get("keyframe_image_prompt_en"):
             kf_raw = s.get("keyframe_image_prompt_en", "")
-            kf_title = "🧩 Flow SceneBuilder 分步延展方案 (8s Base + 7s Extend 提示词)" if "Extend" in kf_raw else "🖼️ 首帧定妆图 / Ingredients 垫图 Prompt (Imagen / MJ)"
+            kf_title = "🧩 Flow SceneBuilder 分步延展方案 (8s Base + 7s Extend 均含原生配音与音效)" if "Extend" in kf_raw else "🖼️ 首帧定妆图 / Ingredients 垫图 Prompt (Imagen / MJ)"
             kf_html = f"""
             <div class="prompt-box kf-box">
                 <div class="prompt-header">
                     <span>{kf_title}</span>
-                    <button class="copy-btn" onclick="copyText(this)">复制备用方案</button>
+                    <button class="copy-btn" onclick="copyText(this)">复制分步方案</button>
                 </div>
                 <pre>{html.escape(kf_raw)}</pre>
             </div>
@@ -222,13 +223,15 @@ def generate_html(data: dict) -> str:
             </div>
             """
 
+        subtitle_zh = html.escape(s.get("subtitle_zh", "底部同步呈现电影感中文字幕"))
+
         shot_cards_html.append(f"""
         <article id="shot-{i+1}" class="shot-card" style="--shot-accent:{color};">
             <div class="shot-top">
                 <div class="shot-title-group">
                     <span class="shot-num">{html.escape(s.get('shot_id', f'SHOT {i+1:02d}'))}</span>
                     <span class="shot-phase">{html.escape(s.get('phase_name', ''))}</span>
-                    <span class="shot-time">⏱️ 成片 {html.escape(str(s.get('timeline', '')))} ({s.get('edit_duration_sec')}s) · Flow生成 {s.get('flow_gen_duration_sec', 8)}s</span>
+                    <span class="shot-time">⏱️ 成片 {html.escape(str(s.get('timeline', '')))} ({s.get('edit_duration_sec')}s) · Flow生成 {s.get('flow_gen_duration_sec', 15)}s</span>
                 </div>
                 <div class="shot-badges">
                     <span class="badge {badge_class}">{mode_badge}</span>
@@ -240,37 +243,31 @@ def generate_html(data: dict) -> str:
             <div class="shot-grid">
                 <div class="info-box">
                     <div class="info-label">🎥 画面内容与动态调度 (中文拆解)</div>
-                    <div class="info-val">{html.escape(s.get('visual_detail_zh', ''))}</div>
+                    <div class="info-val" style="white-space:pre-line;">{html.escape(s.get('visual_detail_zh', ''))}</div>
                 </div>
                 <div class="info-box">
-                    <div class="info-label">🕹️ 摄影机运动与转场前后态</div>
+                    <div class="info-label">🕹️ 摄影机运镜 &amp; 🎙️ 内嵌配音/字幕/音效设定</div>
                     <div class="info-val">
-                        <div><strong>运镜：</strong>{html.escape(s.get('camera_movement_zh', ''))}</div>
+                        <div><strong>运镜轨迹：</strong>{html.escape(s.get('camera_movement_zh', ''))}</div>
                         <div style="margin-top:6px;"><strong>入画承接：</strong>{html.escape(s.get('entry_bridge_zh', ''))}</div>
+                        <div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(148,163,184,0.2);">
+                            <div><strong style="color:#fbbf24;">🎙️ 原生中文配音 (已写入Prompt)：</strong>「{html.escape(s.get('voiceover_zh', ''))}」</div>
+                            <div style="margin-top:4px;"><strong style="color:#38bdf8;">📝 字幕与落版指令 (已写入Prompt)：</strong>{subtitle_zh}</div>
+                            <div style="margin-top:4px;"><strong style="color:#34d399;">🔊 同步音效与配乐 (已写入Prompt)：</strong>{html.escape(s.get('sfx_zh', ''))}</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="prompt-box">
                 <div class="prompt-header">
-                    <span>🎬 Google Flow 视频生成 Prompt (已注入全局视觉锁)</span>
-                    <button class="copy-btn" onclick="copyText(this)">一键复制 Flow Prompt</button>
+                    <span>🎬🎙️ Google Flow 音画+配音+字幕一体化 Prompt（含画面运镜 + 原生中文旁白 + 同步音效BGM + 字幕指令）</span>
+                    <button class="copy-btn" onclick="copyText(this)">一键复制完整 Flow Prompt</button>
                 </div>
                 <pre>{html.escape(s.get('flow_video_prompt_en', ''))}</pre>
             </div>
 
             {kf_html}
-
-            <div class="audio-bar">
-                <div class="audio-item">
-                    <span class="audio-tag">🎙️ 旁白/字幕 (VO)</span>
-                    <span class="audio-text">「{html.escape(s.get('voiceover_zh', '（无旁白，纯画面情绪）'))}」</span>
-                </div>
-                <div class="audio-item">
-                    <span class="audio-tag">🔊 环境音效 (SFX)</span>
-                    <code class="sfx-code">{html.escape(s.get('sfx_prompt_en', ''))}</code>
-                </div>
-            </div>
         </article>
         {transition_connector}
         """)
@@ -311,7 +308,7 @@ def generate_html(data: dict) -> str:
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }}
   .header-top {{ display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }}
-  h1 {{ font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; }}
+  h1 {{ font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; }}
   .meta-pills {{ display: flex; gap: 10px; flex-wrap: wrap; }}
   .pill {{
     background: rgba(56, 189, 248, 0.12);
@@ -344,7 +341,7 @@ def generate_html(data: dict) -> str:
   .badge-purple {{ background: rgba(192,132,252,0.18); color: var(--purple); border: 1px solid rgba(192,132,252,0.4); }}
   .badge-amber {{ background: rgba(251,191,36,0.15); color: var(--amber); border: 1px solid rgba(251,191,36,0.35); }}
   .badge-emerald {{ background: rgba(52,211,153,0.15); color: var(--emerald); border: 1px solid rgba(52,211,153,0.35); }}
-  .grid-3 {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 16px; }}
+  .grid-3 {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 16px; }}
   .grid-2 {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; margin-bottom: 16px; }}
   .info-box {{
     background: rgba(15, 23, 42, 0.65);
@@ -393,7 +390,6 @@ def generate_html(data: dict) -> str:
     color: #e2e8f0;
     line-height: 1.55;
   }}
-  /* Timeline Bar */
   .timeline-bar {{
     display: flex;
     gap: 4px;
@@ -420,8 +416,6 @@ def generate_html(data: dict) -> str:
   }}
   .tl-id {{ font-size: 0.75rem; font-weight: 700; color: #fff; }}
   .tl-dur {{ font-size: 0.68rem; color: var(--muted); }}
-
-  /* Shot Card */
   .shot-card {{
     background: var(--card);
     border: 1px solid var(--card-border);
@@ -466,25 +460,6 @@ def generate_html(data: dict) -> str:
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 12px;
   }}
-  .audio-bar {{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px dashed rgba(148,163,184,0.2);
-    font-size: 0.88rem;
-  }}
-  .audio-item {{ display: flex; align-items: center; gap: 8px; flex: 1; min-width: 260px; }}
-  .audio-tag {{ color: var(--amber); font-weight: 600; white-space: nowrap; font-size: 0.8rem; }}
-  .sfx-code {{
-    background: rgba(15,23,42,0.8);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: #93c5fd;
-  }}
-  /* Transition Bridge */
   .transition-bridge {{
     display: flex;
     flex-direction: column;
@@ -525,7 +500,7 @@ def generate_html(data: dict) -> str:
         <span class="pill">{category}</span>
         <span class="pill">成片总长：{total_duration}s</span>
         <span class="pill">画幅：{aspect_ratio}</span>
-        <span class="pill">共 {len(shots)} 个分镜单元</span>
+        <span class="pill">共 {len(shots)} 个音画一体分镜单元</span>
       </div>
     </div>
     <p class="concept"><strong>核心创意与叙事线：</strong>{creative_concept}</p>
@@ -539,8 +514,8 @@ def generate_html(data: dict) -> str:
 
   <section class="panel">
     <div class="panel-header">
-      <span class="badge badge-emerald">GLOBAL VISUAL BIBLE</span>
-      <h2>全局视觉圣经（跨镜头一致性锁）</h2>
+      <span class="badge badge-emerald">GLOBAL VISUAL &amp; AUDIO BIBLE</span>
+      <h2>全局音画双锁圣经（跨镜头视觉 + 配音音色一致性锁）</h2>
     </div>
     <div class="grid-3">
       <div class="info-box">
@@ -552,38 +527,27 @@ def generate_html(data: dict) -> str:
         <div class="info-val">{html.escape(visual_bible.get('lighting_and_color', ''))}</div>
       </div>
       <div class="info-box">
-        <div class="info-label">空气介质与胶片质感</div>
-        <div class="info-val">{html.escape(visual_bible.get('texture_and_atmosphere', ''))}</div>
+        <div class="info-label">🎙️ 全局配音人设与音色锁</div>
+        <div class="info-val">{html.escape(audio_guide.get('voice_profile_zh', '央视纪录片级磁性男中音，普通话标准，沉稳诗意'))}</div>
       </div>
     </div>
     <div class="prompt-box">
       <div class="prompt-header">
-        <span>🔒 全局强制风格后缀 (已自动拼入下方每个分镜 Prompt 末尾)</span>
-        <button class="copy-btn" onclick="copyText(this)">复制全局后缀</button>
+        <span>🔒 全局强制视觉后缀 (已自动内嵌至下方每个分镜 Prompt)</span>
+        <button class="copy-btn" onclick="copyText(this)">复制视觉锁</button>
       </div>
       <pre>{html.escape(visual_bible.get('style_suffix_en', ''))}</pre>
+    </div>
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span>🎙️🎵 全局强制配音音色与配乐锁 (已自动内嵌至下方每个分镜 Prompt)</span>
+        <button class="copy-btn" onclick="copyText(this)">复制声音锁</button>
+      </div>
+      <pre>{html.escape(audio_guide.get('voice_and_audio_lock_en', audio_guide.get('bgm_prompt_en', '')))}</pre>
     </div>
   </section>
 
   {product_dna_html}
-
-  <section class="panel">
-    <div class="panel-header">
-      <span class="badge badge-amber">AUDIO & BGM</span>
-      <h2>全局配乐与声音设计</h2>
-    </div>
-    <div class="info-box" style="margin-bottom:10px;">
-      <div class="info-label">音乐风格与情绪推进</div>
-      <div class="info-val">{html.escape(audio_guide.get('bgm_style', ''))}</div>
-    </div>
-    <div class="prompt-box">
-      <div class="prompt-header">
-        <span>🎵 Suno / Udio 配乐生成 Prompt</span>
-        <button class="copy-btn" onclick="copyText(this)">复制配乐 Prompt</button>
-      </div>
-      <pre>{html.escape(audio_guide.get('bgm_prompt_en', ''))}</pre>
-    </div>
-  </section>
 
   <div class="shots-wrapper">
     {''.join(shot_cards_html)}
