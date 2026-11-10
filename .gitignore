@@ -1,0 +1,11 @@
+# Ignore generated heavy media and temporary output folders in Git (stored in Google Drive instead)
+output/
+*.mp4
+*.mov
+*.png
+*.jpg
+*.jpeg
+*.webp
+__pycache__/
+*.pyc
+.DS_Store
