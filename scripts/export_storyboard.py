@@ -196,13 +196,15 @@ def generate_html(data: dict) -> str:
 
         kf_html = ""
         if s.get("keyframe_image_prompt_en"):
+            kf_raw = s.get("keyframe_image_prompt_en", "")
+            kf_title = "🧩 Flow SceneBuilder 分步延展方案 (8s Base + 7s Extend 提示词)" if "Extend" in kf_raw else "🖼️ 首帧定妆图 / Ingredients 垫图 Prompt (Imagen / MJ)"
             kf_html = f"""
             <div class="prompt-box kf-box">
                 <div class="prompt-header">
-                    <span>🖼️ 首帧定妆图 / Ingredients 垫图 Prompt (Imagen / MJ)</span>
-                    <button class="copy-btn" onclick="copyText(this)">复制首帧 Prompt</button>
+                    <span>{kf_title}</span>
+                    <button class="copy-btn" onclick="copyText(this)">复制备用方案</button>
                 </div>
-                <pre>{html.escape(s.get('keyframe_image_prompt_en', ''))}</pre>
+                <pre>{html.escape(kf_raw)}</pre>
             </div>
             """
 
