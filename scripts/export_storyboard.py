@@ -31,14 +31,14 @@ def generate_markdown(data: dict) -> str:
         "",
         f"- **项目类型**：{category}",
         f"- **目标成片总时长**：{total_duration} 秒 | **画幅比例**：`{aspect_ratio}`",
-        f"- **镜头总数**：{len(shots)} 个分镜单元（原生内嵌：画面运镜 + 中文配音旁白 + 动作音效 + BGM + 字幕指令）",
+        f"- **镜头总数**：{len(shots)} 个分镜单元（原生内嵌：画面运镜 + 中文配音旁白 + 动作音效 + BGM | 纯净画面不含AI字幕）",
         f"- **核心创意阐述**：{creative_concept}",
         "",
         "---",
         "",
         "## 一、 全局音画双锁圣经 (Global Visual & Audio Bible — 跨片段一致性锁)",
         "",
-        "> **使用说明**：以下【全局视觉后缀】与【全局配音音色&配乐锁】已**直接内嵌至下方每个镜头的 Google Flow 一体化 Prompt 中**，确保多段视频不仅画风、色温一致，而且生成的中文旁白音色、语速与背景音乐也浑然一体。",
+        "> **使用说明**：以下【全局视觉后缀】与【全局配音音色&配乐锁】已**直接内嵌至下方每个镜头的 Google Flow 一体化 Prompt 中**，确保多段视频不仅画风、色温一致，而且生成的中文旁白音色、语速与背景音乐也浑然一体。画面**严禁在 Prompt 中添加字幕**以防字符乱码变形，字幕留待后期剪辑软件统一添加。",
         "",
         f"- **摄影机与镜头组 (Camera & Lens)**：{visual_bible.get('camera_and_lens', 'ARRI Alexa 65, Anamorphic Lens')}",
         f"- **光影与色彩基底 (Lighting & Color Palette)**：{visual_bible.get('lighting_and_color', 'Golden hour rim light, teal and orange grading')}",
@@ -78,7 +78,7 @@ def generate_markdown(data: dict) -> str:
         "",
         "## 四、 分镜时间轴与转场总览表",
         "",
-        "| 镜号 | 时间轴 (成片) | Flow生成时长 | 生成模式 | 画面核心内容 | 内嵌中文配音 & 字幕 | 转场桥接设计 (衔接下一镜) |",
+        "| 镜号 | 时间轴 (成片) | Flow生成时长 | 生成模式 | 画面核心内容 | 原生中文配音 (后期剪辑直接贴字幕) | 转场桥接设计 (衔接下一镜) |",
         "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
     ])
 
@@ -90,7 +90,7 @@ def generate_markdown(data: dict) -> str:
             f"{s.get('transition_to_next_zh', '尾帧定格淡出')} |"
         )
 
-    lines.extend(["", "---", "", "## 五、 逐镜 Google Flow 音画+配音+字幕一体化指令卡", ""])
+    lines.extend(["", "---", "", "## 五、 逐镜 Google Flow 音画+配音一体化指令卡（纯净无字版）", ""])
 
     for idx, s in enumerate(shots, 1):
         lines.extend([
@@ -100,10 +100,10 @@ def generate_markdown(data: dict) -> str:
             f"- **画面与动作拆解 (中文)**：\n{s.get('visual_detail_zh', '')}",
             f"- **摄影机调度 (Camera Control)**：{s.get('camera_movement_zh', '')}",
             f"- **内嵌原生中文配音 (Voiceover)**：「{s.get('voiceover_zh', '')}」",
-            f"- **内嵌画面字幕/落版字 (Subtitles & Text)**：{s.get('subtitle_zh', '底部同步显示电影感简体中文字幕')}",
+            f"- **后期字幕贴条建议 (Subtitle for Post-Production)**：直接使用上述配音文案在剪辑软件（剪映/PR）中贴入中文字幕，视频本身不包含 AI 生成文字以保证画质纯净。",
             f"- **内嵌同步音效与配乐 (Native SFX & BGM)**：{s.get('sfx_zh', '')}",
             "",
-            "#### 📋 Google Flow 音画+配音+字幕一体化 Prompt（直接复制进 Flow）",
+            "#### 📋 Google Flow 音画+原生配音一体化 Prompt（直接复制进 Flow）",
             "```text",
             s.get("flow_video_prompt_en", ""),
             "```",
@@ -223,8 +223,6 @@ def generate_html(data: dict) -> str:
             </div>
             """
 
-        subtitle_zh = html.escape(s.get("subtitle_zh", "底部同步呈现电影感中文字幕"))
-
         shot_cards_html.append(f"""
         <article id="shot-{i+1}" class="shot-card" style="--shot-accent:{color};">
             <div class="shot-top">
@@ -246,13 +244,13 @@ def generate_html(data: dict) -> str:
                     <div class="info-val" style="white-space:pre-line;">{html.escape(s.get('visual_detail_zh', ''))}</div>
                 </div>
                 <div class="info-box">
-                    <div class="info-label">🕹️ 摄影机运镜 &amp; 🎙️ 内嵌配音/字幕/音效设定</div>
+                    <div class="info-label">🕹️ 摄影机运镜 &amp; 🎙️ 内嵌配音与音效设定</div>
                     <div class="info-val">
                         <div><strong>运镜轨迹：</strong>{html.escape(s.get('camera_movement_zh', ''))}</div>
                         <div style="margin-top:6px;"><strong>入画承接：</strong>{html.escape(s.get('entry_bridge_zh', ''))}</div>
                         <div style="margin-top:8px; padding-top:8px; border-top:1px dashed rgba(148,163,184,0.2);">
                             <div><strong style="color:#fbbf24;">🎙️ 原生中文配音 (已写入Prompt)：</strong>「{html.escape(s.get('voiceover_zh', ''))}」</div>
-                            <div style="margin-top:4px;"><strong style="color:#38bdf8;">📝 字幕与落版指令 (已写入Prompt)：</strong>{subtitle_zh}</div>
+                            <div style="margin-top:4px;"><strong style="color:#38bdf8;">🎬 画面文字控制：</strong>纯净画面，不含任何AI字幕/大字（字幕留待后期剪映/PR直接贴入）</div>
                             <div style="margin-top:4px;"><strong style="color:#34d399;">🔊 同步音效与配乐 (已写入Prompt)：</strong>{html.escape(s.get('sfx_zh', ''))}</div>
                         </div>
                     </div>
@@ -261,7 +259,7 @@ def generate_html(data: dict) -> str:
 
             <div class="prompt-box">
                 <div class="prompt-header">
-                    <span>🎬🎙️ Google Flow 音画+配音+字幕一体化 Prompt（含画面运镜 + 原生中文旁白 + 同步音效BGM + 字幕指令）</span>
+                    <span>🎬🎙️ Google Flow 音画+原生配音一体化 Prompt（纯净画面 · 含画面运镜 + 原生中文旁白 + 同步音效BGM）</span>
                     <button class="copy-btn" onclick="copyText(this)">一键复制完整 Flow Prompt</button>
                 </div>
                 <pre>{html.escape(s.get('flow_video_prompt_en', ''))}</pre>

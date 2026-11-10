@@ -61,11 +61,13 @@ To keep the workflow fast while preventing AI hallucination:
 
 ---
 
-## 4. Google Flow (Veo) Native Audio, Voiceover & Subtitle Prompting (音画配音一体化规范)
+## 4. Google Flow (Veo) Native Audio & Voiceover Prompting (纯净音画与原生中文配音规范)
 
-Google Flow natively generates synchronized **Voiceover (旁白/人声)**, **Foley/SFX (动作环境音效)**, **Background Music (BGM)**, and **On-screen Typography/Subtitles (字幕/落版字)** directly from the video prompt.
+Google Flow natively generates high-fidelity **Voiceover (旁白/人声)**, **Foley/SFX (动作环境音效)**, and **Background Music (BGM)** directly from the video prompt.
 
-To prevent the narrator's voice from changing between Clip 1 and Clip 2, every project MUST define a **Global Voice & Audio Lock (`voice_and_audio_lock_en`)** alongside the Global Visual Suffix, and embed audio/voice/subtitle instructions directly into every shot's `flow_video_prompt_en`.
+> **💡 关于字幕的重要原则**：严禁在视频生成 Prompt 中要求生成字幕或大字文字（AI 视频模型极易产生字符扭曲、错别字或破坏画面美感）。画面保持 100% 纯净电影感空镜与构图，**配音文案由 Flow 原生生成，字幕统一由创作者在后期剪辑软件（如剪映、Premiere、Final Cut）中一键识别或手动添加**。
+
+To prevent the narrator's voice from changing between Clip 1 and Clip 2, every project MUST define a **Global Voice & Audio Lock (`voice_and_audio_lock_en`)** alongside the Global Visual Suffix, and embed audio/voice instructions directly into every shot's `flow_video_prompt_en`.
 
 ### 4.1 Global Voice & Audio Locks (跨镜头配音音色锁)
 
@@ -76,14 +78,13 @@ To prevent the narrator's voice from changing between Clip 1 and Clip 2, every p
 - **Tech & Product Launch Narrator (科技数码/现代极客旁白)**
   - `Audio Lock: Consistent crisp, confident, modern mid-range Mandarin Chinese narrator voice (Apple keynote commercial cadence, clean articulation), paired with precision high-tech foley sound design and deep sub-bass pulse.`
 
-### 4.2 Standard All-in-One Prompt Structure for Google Flow
+### 4.2 Standard All-in-One Prompt Structure for Google Flow (Clean Frame, No AI Subtitles)
 
-Every `flow_video_prompt_en` MUST weave Visuals, Camera, Native Voiceover, Synchronized SFX/Music, and Subtitle cues into one cohesive prompt block ready to paste into Google Flow:
+Every `flow_video_prompt_en` MUST weave Visuals, Continuous Camera, Native Voiceover, and Synchronized SFX/Music into one cohesive prompt block ready to paste into Google Flow:
 
 ```text
 [Visual & Camera]: <Detailed continuous camera movement and visual action across the timeline...>
 [Native Audio & SFX]: Synchronized high-fidelity foley sound of <specific actions at specific moments>, blending with <BGM style and emotional progression>.
 [Voiceover]: A consistent <Voice Lock Profile> speaks in clear, standard Mandarin Chinese: "<Exact Chinese VO Script>".
-[Subtitles & On-Screen Text]: <Optional clean cinematic subtitles at bottom center reading "<Text>" / or Final title card overlay reading "<Brand Slogan>">.
 [Global Visual Lock]: <Exact Global Style Suffix>
 ```

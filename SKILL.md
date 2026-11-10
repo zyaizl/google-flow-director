@@ -1,6 +1,6 @@
 ---
 name: google-flow-director
-description: Google Flow (Veo) 商业广告与宣传片导演工作台 Skill。专注于「城市文旅宣传片」、「品牌情绪 TVC」与「产品高光展示」三大方向。当用户输入视频主题、总时长或上传产品参考图时，自动构建全局视觉与声音圣经（Visual & Audio Bible）、智能切分 15s 多段分镜时间轴、规划无缝转场桥接（Match Cut / 甩镜遮罩 / 光斑呼吸 / 首尾帧接力），生成直接内嵌【原生中文配音 + 动作音效 + BGM + 字幕/落版指令】的一体化 Google Flow 提示词，并自动导出本地 Markdown 执行单、交互式 HTML 故事板且同步至 Google Drive。
+description: Google Flow (Veo) 商业广告与宣传片导演工作台 Skill。专注于「城市文旅宣传片」、「品牌情绪 TVC」与「产品高光展示」三大方向。当用户输入视频主题、总时长或上传产品参考图时，自动构建全局视觉与声音圣经（Visual & Audio Bible）、智能切分 15s 多段分镜时间轴、规划无缝转场桥接（Match Cut / 甩镜遮罩 / 光斑呼吸 / 首尾帧接力），生成直接内嵌【纯净电影画面 + 原生中文配音 + 动作音效 + BGM】的一体化 Google Flow 提示词（严禁生成字幕以防字符错乱，字幕留待后期剪辑添加），并自动导出本地 Markdown 执行单、交互式 HTML 故事板且同步至 Google Drive。
 ---
 
 # Google Flow Director (`google-flow-director`)
@@ -15,7 +15,7 @@ description: Google Flow (Veo) 商业广告与宣传片导演工作台 Skill。�
 
 ---
 
-## 核心执行流程（4 步音画一体导演工作流）
+## 核心执行流程（4 步纯净音画导演工作流）
 
 每次用户提出视频创作需求（例如给出**主题 + 目标总时长 + 可选产品图/风格偏好**）时，必须严格按以下 4 个阶段执行：
 
@@ -32,8 +32,9 @@ description: Google Flow (Veo) 商业广告与宣传片导演工作台 Skill。�
      - **摄影机与镜头焦段**（如 `ARRI Alexa 65 + Panavision Anamorphic Lens`）
      - **光影基调与色温色彩**（如 `Warm amber kiln firelight contrasting with deep jade-cyan shadows, Kodak Vision3 500T`）
      - **全局强制视觉后缀 (`style_suffix_en`)**：一段 25~40 词的标准英文摄影后缀。
-     - **全局强制配音与声音锁 (`voice_and_audio_lock_en`)**：因为 Google Flow 支持直接带配音与音效，为了防止第 1 段和第 2 段视频里的旁白换人或背景音乐割裂，必须定义固定的**旁白人设音色词**（如 `Consistent warm, deep, magnetic male Mandarin Chinese documentary narrator voice, calm poetic cadence, crisp studio condenser mic`）以及统一的背景配乐基调。
-   - **强制合成规则**：`style_suffix_en` 与 `voice_and_audio_lock_en` **必须直接合并且内嵌到每一个镜头的 `flow_video_prompt_en` 中**，确保用户在 Google Flow 中一次复制即可同时生成高度一致的画面、原生配音、动作音效与字幕！
+     - **全局强制配音与声音锁 (`voice_and_audio_lock_en`)**：Google Flow 支持直接带配音与音效，为了防止跨视频片段旁白换人或配乐突变，必须定义固定的**旁白人设音色词**（如 `Consistent warm, deep, magnetic male Mandarin Chinese documentary narrator voice, calm poetic cadence, crisp studio condenser mic`）以及统一的背景配乐基调。
+   - **强制合成规则**：`style_suffix_en` 与 `voice_and_audio_lock_en` **必须直接合并且内嵌到每一个镜头的 `flow_video_prompt_en` 中**，确保用户在 Google Flow 中一次复制即可同时生成画风连贯、配音音色统一的纯净成片。
+   - **⚠️ 绝不添加字幕指令**：提示词中严禁出现生成字幕或画面大字的指令（AI 视频直出文字极易变形扭曲破坏质感）。分镜表内单独保留中文旁白台词，供用户在剪映/PR等后期剪辑软件中一键语音识别生成高质量字幕。
 
 ### Step 2：总时长切分与生成模式决策（支持 15s 一镜到底或快切分镜）
 
@@ -47,18 +48,17 @@ description: Google Flow (Veo) 商业广告与宣传片导演工作台 Skill。�
   - **`I2V 首帧垫图 / Ingredients`（占 15%~25%）**：当画面出现**具体产品本体、品牌 Logo 或核心国宝器物**时启用，指导用户上传参考图作为 Ingredients。
   - **`F2V 首尾帧桥接`（关键变形转场）**：当相邻两镜需要超现实无缝变形时启用。
 
-### Step 3：前后镜头无缝转场桥接 + 音画字幕一体化 Prompt 编写
+### Step 3：前后镜头无缝转场桥接 + 音画一体化 Prompt 编写（无字幕纯净画面）
 
 1. **视觉无缝转场（Transition Bridge）**：
    - 从 `references/cinematography_and_transitions.md` 的 6 大转场矩阵（`MATCH_SHAPE` 同心圆匹配、`WHIP_WIPE` 甩镜遮罩、`SPEED_RAMP_DIVE` 微距穿入、`LIGHT_BOKEH` 光斑呼吸、`MOTION_RELAY` 动势接力、`SCENE_EXTEND` 原生延展）中选择转场。
    - 上一段结尾包含 `Exit Momentum`，下一段开头包含对应的 `Entry Momentum`。
-2. **音画字幕一体化 Prompt 结构（All-in-One Flow Prompt）**：
-   - 每个分镜的 `flow_video_prompt_en` **严禁只写画面**！必须直接把以下 5 大模块融合成一段可直接复制进 Google Flow 的完整提示词：
+2. **音画一体化 Prompt 结构（All-in-One Clean Flow Prompt）**：
+   - 每个分镜的 `flow_video_prompt_en` 必须将以下模块融合成一段可直接复制进 Google Flow 的完整提示词（不含任何字幕文字指令）：
      1. **`[Visual & Continuous Camera]`**：分秒段画面与连续运镜描述；
      2. **`[Native Audio, Foley & BGM]`**：与画面动作严格同步的原生环境音效（ASMR/Foley）与背景配乐推进；
      3. **`[Voiceover (Mandarin Chinese)]`**：直接包含旁白音色描述与双引号内的**中文配音台词原文**（例如：`A warm, deep, magnetic male narrator speaks in standard Mandarin Chinese with poetic documentary cadence: "一捧高岭土，落笔藏山河；千度烈焰里，淬炼不灭的温润。"`）；
-     4. **`[Subtitles & On-Screen Text]`**：明确底部电影感中文字幕或片尾品牌落版大字指令（如 `Clean cinematic Chinese subtitles at the bottom synchronized with the voiceover; final aerial frame displays elegant calligraphic title "中国·景德镇" in the center sky.`）；
-     5. **`[Global Visual & Audio Lock]`**：全局摄影机后缀锁与全局音色配乐锁。
+     4. **`[Global Visual Lock]`**：全局摄影机与胶片光影风格后缀锁。
 
 ### Step 4：双模交付（Markdown 执行单 + 交互式 HTML 导演故事板）与云端同步
 
