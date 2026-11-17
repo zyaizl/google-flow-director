@@ -1,68 +1,138 @@
 {
   "project_slug": "jingdezhen_tourism_30s",
-  "project_title": "景德镇：千年窑火，一瓷一世界（2×15s 音画一体纯净版）",
-  "category": "城市文旅宣传片 · 2×15s 音画配音直出",
+  "project_title": "景德镇：千年窑火，一瓷一世界（2×15s 端到端全自动制片版）",
+  "category": "城市文旅宣传片 · 2×15s 音画一体 + 自动后期母带",
   "total_duration_sec": 30,
   "aspect_ratio": "16:9",
-  "creative_concept": "专为 Google Flow (Veo) 原生音画一体能力定制：将 30 秒大片拆为【上篇 15s：泥火成器】与【下篇 15s：器成天下】两段一镜到底长镜头。画面保持 100% 电影级纯净构图（严禁任何 AI 生成字幕/文字，彻底规避错别字与字体畸变）；提示词中直接内嵌【央视纪录片级原生中文磁性旁白 + 分秒段同步 ASMR 音效 + 东方交响配乐】；两段之间通过【金色窑火失焦光斑 → 晨曦波光对焦】与【同一男中音音色锁】保持跨片段音画 100% 连贯；字幕文案单列供创作者在剪映/PR等后期软件中直接贴入。",
+  "creative_concept": "专为 Google Flow (Veo) 端到端全自动制片流水线定制：将 30 秒大片拆为【上篇 15s：泥火成器】与【下篇 15s：器成天下】两段一镜到底长镜头。画面严守 100% 电影级纯净无字构图；采用【13.5s 台词安全截止线 + 末尾 1.5s 余韵留白】与【发音防错词 / 后期正字字幕双轨机制】彻底杜绝多音字误读与尾音截断；后期通过 Python (PIL) + ffmpeg 自动完成首尾留白微调、光斑叠化衔接、2.35:1 宽银幕遮幅、中英双语字幕压制及片尾『中国 · 景德镇』书法级落版大字合成。",
+  "review_status": {
+    "director_qa_passed": true,
+    "human_script_approved": true,
+    "review_notes": "已通过挑剔导演与技术总监双视角审查：1) 单镜无复杂多人穿模动作；2) 两段旁白均压缩在 32 字以内，确保 13.5s 前念完并留足 1.5s 光斑/航拍余韵；3) 易错词『千年重器/素坯』规避或同音注音，句末添加『……』防吞尾。"
+  },
   "visual_bible": {
     "camera_and_lens": "ARRI Alexa 65, Panavision Primo 70 Anamorphic Lens (35mm & 85mm Macro continuous zoom)",
     "lighting_and_color": "Warm amber kiln firelight (3200K) contrasting with Song Dynasty Qingbai jade-cyan shadows (6500K), Kodak Vision3 500T color science",
     "texture_and_atmosphere": "Subtle 35mm organic film grain, floating clay dust motes in volumetric Tyndall light beams, tactile wet clay and crystalline ceramic glaze reflections",
-    "style_suffix_en": "Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text."
+    "style_suffix_en": "Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text, no subtitles, no watermarks, no UI borders."
   },
   "product_dna": {
     "enabled": true,
     "subject_lock_en": "museum-grade Ming-style blue-and-white porcelain vase (Qinghua Meiping), translucent ivory-white jade-like glaze, cobalt-blue hand-painted swirling cloud motifs, delicate golden ice-crackle glaze network",
     "materials_and_reflections": "半透明玉质感白釉底、深邃苏麻离青钴蓝晕染、高光处有细腻的冰裂纹玻璃态镜面反光",
-    "ingredients_strategy": "两段 15s 均可直接复制下方【音画+配音一体化 Prompt】进 Google Flow 纯文生直出（原生带中文旁白与音效，画面纯净无字）。若希望第 2 段中的青花梅瓶器型与纹样 100% 锁定，可将梅瓶参考图放入第 2 段 Ingredients。"
+    "ingredients_strategy": "两段 15s 均可直接通过云端 API / Google Flow 纯文生音画直出。若希望第 2 段中的青花梅瓶器型与纹样 100% 锁定，可将梅瓶参考图放入第 2 段 Ingredients。"
   },
   "audio_guide": {
-    "voice_profile_zh": "央视纪录片级浑厚磁性男中音（比如《航拍中国》/《如果国宝会说话》旁白质感），标准普通话，语速沉稳克制，富有东方诗意与历史厚重感",
+    "voice_profile_zh": "央视纪录片级浑厚磁性男中音（《航拍中国》/《如果国宝会说话》旁白质感），标准普通话，语速沉稳克制，富有东方诗意与历史厚重感",
     "voice_and_audio_lock_en": "Audio & Voice Lock: Consistent warm, deep, magnetic male Mandarin Chinese documentary narrator voice (calm, poetic CCTV documentary cadence, studio condenser microphone clarity), accompanied by ethereal Guqin harmonics, tactile porcelain foley ASMR, and a building cinematic orchestral cello score.",
-    "bgm_style": "第1段（0-15s）：空灵古琴泛音配合湿润陶土旋转ASMR，第8秒窑火燃起时加入低沉大提琴独奏与火焰轰鸣；第2段（15-30s）：清脆瓷器冰裂开片声切入，恢弘东方交响乐与现代电子低频共振推向高潮，尾声以一声清越的瓷鸣余音定格。",
+    "bgm_style": "第1段（0-15s）：空灵古琴泛音配合湿润陶土旋转ASMR，第8秒窑火燃起时加入低沉大提琴独奏与火焰轰鸣，13.5-15s 人声收束仅留火光余韵；第2段（15-30s）：清脆瓷器冰裂开片声切入，恢弘东方交响乐与现代电子低频共振推向高潮，28.5-30s 以一声清越悠长的瓷鸣余音定格。",
     "bgm_prompt_en": "30-second cinematic oriental luxury commercial soundtrack, first 15 seconds feature intimate tactile clay ASMR, ethereal Guqin harmonics, and building emotional cello with roaring fire; at 15 seconds a crystalline porcelain chime triggers an epic modern orchestral strings and deep sub-bass climax, ending at 30 seconds with a pure resonant porcelain ring, Wong Kar-wai meets Apple commercial score, 92 BPM."
+  },
+  "post_production": {
+    "resolution": "1920x1080",
+    "fps": 24,
+    "cinemascope_bars": true,
+    "bar_ratio": 2.35,
+    "pad_head_sec": 0.0,
+    "pad_tail_sec": 0.35,
+    "crossfade_duration_sec": 0.5,
+    "audio_reverb": false,
+    "loudnorm": true
+  },
+  "end_card": {
+    "enabled": true,
+    "start_sec_in_last_clip": 11.8,
+    "fade_in_sec": 0.8,
+    "title_zh": "中国 · 景德镇",
+    "subtitle_zh": "千年窑火 · 一瓷一世界",
+    "tagline_en": "JINGDEZHEN · MILLENNIUM PORCELAIN CAPITAL"
   },
   "shots": [
     {
       "shot_id": "CLIP 01 (上篇 15s)",
-      "phase_name": "上篇：泥火成器 · 从指尖拉坯到千度窑变（纯净画面 · 含原生配音）",
+      "phase_name": "上篇：泥火成器 · 从指尖拉坯到千度窑变（13.5s 旁白收束 + 光斑过渡）",
       "timeline": "00:00 - 00:15",
       "edit_duration_sec": 15,
       "flow_gen_duration_sec": 15,
+      "vo_safe_cutoff_sec": 13.5,
       "gen_mode_badge": "T2V 音画配音一体 · 15s 直出",
-      "gen_mode_reason": "第一段 15s 聚焦『泥、笔、火』微观流体与光影演变，Prompt 中直接写入分秒段湿泥水滴/毛笔晕染/柴窑烈火原生音效与磁性中文男声旁白，画面保持纯净无任何 AI 生成文字。",
-      "visual_summary_zh": "【0-5s】暗室暖光下匠人双手旋转拉坯水珠飞溅 → 【5-10s】镜头推进衔接狼毫画笔在素坯上晕染钴蓝青花 → 【10-15s】烈焰包围瓷坯熔融出晶莹釉面，结尾化作满屏金色失焦光斑。",
-      "visual_detail_zh": "• [00:00-00:05] 极近景俯拍，一束琥珀色丁达尔逆光刺破青色暗室，匠人苍劲的双手在高速旋转的拉坯机上塑出湿润的高岭土圆碗，细密水珠慢动作飞溅（配音：『一捧高岭土，在掌心苏醒』）；\n• [00:05-00:10] 摄影机顺时针平滑下移并贴近素坯外壁，一支狼毫画笔蘸满深邃苏麻离青钴蓝料水落于素坯之上，蓝色水墨纹路在白色陶土肌理中自然晕染蔓延（配音：『落笔千钧，藏山河于方寸』）；\n• [00:10-00:15] 镜头环绕推进，四周骤然燃起赤金色的千年柴窑烈焰，1300度高温下哑光素坯表面熔融化作晶莹剔透的液态玻璃白釉（配音：『千度烈焰里，淬炼不灭的温润』）；第14至15秒镜头大光圈完全失焦（Rack focus out），漫天金色火星化作满屏温暖梦幻的圆形散景光斑（Golden Bokeh Orbs）。",
-      "camera_movement_zh": "15s 一镜到底：俯拍旋转推入（0-5s）→ 顺滑下移贴外壁微距横移跟拍画笔（5-10s）→ 环绕推入火焰中心并大光圈虚化失焦收尾（10-15s）",
+      "gen_mode_reason": "聚焦『泥、笔、火』微观流体与光影演变；采用双轨配音词（把易错字『素坯』在发音轨注为同音字『素批』并加末尾『……』缓冲），13.5s 前结束旁白，留出 1.5s 纯净金色散景光斑过渡。",
+      "visual_summary_zh": "【0-5s】暗室暖光下匠人双手旋转拉坯水珠飞溅 → 【5-10s】镜头推进衔接狼毫画笔在素坯上晕染钴蓝青花 → 【10-15s】烈焰包围瓷坯熔融出晶莹釉面，13.5-15s 化作满屏金色失焦光斑。",
+      "visual_detail_zh": "• [00:00-00:05] 极近景俯拍，一束琥珀色丁达尔逆光刺破青色暗室，匠人苍劲的双手在高速旋转的拉坯机上塑出湿润的高岭土圆碗，细密水珠慢动作飞溅（配音：『一捧高岭土，在掌心苏醒』）；\n• [00:05-00:10] 摄影机顺时针平滑下移并贴近素坯外壁，一支狼毫画笔蘸满深邃苏麻离青钴蓝料水落于素坯之上，蓝色水墨纹路在白色陶土肌理中自然晕染蔓延（配音：『落笔素坯上，藏山河方寸』）；\n• [00:10-00:13.5] 镜头环绕推进，四周骤然燃起赤金色的千年柴窑烈焰，1300度高温下哑光陶土表面熔融化作晶莹剔透的液态玻璃白釉（配音在 13.5s 前收束：『千度烈焰里，淬炼温润……』）；\n• [00:13.5-00:15] 静默余韵与转场留白：不再开口说话，镜头大光圈完全失焦（Rack focus out），漫天金色火星化作满屏温暖梦幻的圆形散景光斑（Golden Bokeh Orbs）。",
+      "camera_movement_zh": "15s 一镜到底：俯拍旋转推入（0-5s）→ 顺滑下移贴外壁微距横移跟拍画笔（5-10s）→ 环绕推入火焰中心并于 13.5-15s 大光圈虚化失焦收尾",
       "entry_bridge_zh": "开篇首镜：黑场中一声清脆水滴声与古琴泛音，琥珀色侧逆光骤然点亮旋转的泥坯中心。",
-      "transition_type": "LIGHT_BOKEH (15s 中点光斑失焦 + 声音无缝桥接)",
-      "transition_to_next_zh": "画面在满屏温暖金色圆形光斑（Golden Bokeh）中结束，火焰轰鸣声渐化为悠远余音，无缝衔接第 2 段 15s 开头的清晨江面金色波光光斑与一声清脆瓷器冰裂声。",
-      "voiceover_zh": "一捧高岭土，在掌心苏醒；落笔千钧，藏山河于方寸；千度烈焰里，淬炼不灭的温润。",
-      "sfx_zh": "0-5s 湿润陶土旋转摩擦与水滴飞溅ASMR + 空灵古琴泛音 → 5-10s 狼毫触碰素坯沙沙吸水声 → 10-15s 柴窑烈火低频轰鸣、松木爆裂声与深沉大提琴渐强",
+      "transition_type": "LIGHT_BOKEH",
+      "transition_to_next_zh": "13.5s 旁白提前收束，画面在满屏温暖金色圆形光斑（Golden Bokeh）中结束，无缝叠化衔接第 2 段开头的清晨江面金色波光光斑。",
+      "voiceover_zh": "一捧高岭土，在掌心苏醒；落笔素坯上，藏山河方寸；千度烈焰里，淬炼温润。",
+      "subtitle_display_zh": "一捧高岭土，在掌心苏醒；落笔素坯上，藏山河方寸；千度烈焰里，淬炼温润。",
+      "voiceover_phonetic_zh": "一捧高岭土，在掌心苏醒。落笔素批上，藏山河方寸。千度烈焰里，淬炼温润……",
+      "subtitle_cues": [
+        {
+          "start": 0.6,
+          "end": 4.6,
+          "text_zh": "一捧高岭土，在掌心苏醒",
+          "text_en": "A handful of kaolin clay awakens in the palm"
+        },
+        {
+          "start": 5.0,
+          "end": 9.2,
+          "text_zh": "落笔素坯上，藏山河方寸",
+          "text_en": "Cobalt brushstrokes hold mountains and rivers within inches"
+        },
+        {
+          "start": 9.6,
+          "end": 13.3,
+          "text_zh": "千度烈焰里，淬炼温润",
+          "text_en": "Tempered in thousand-degree flames into eternal jade warmth"
+        }
+      ],
+      "sfx_zh": "0-5s 湿润陶土旋转摩擦与水滴飞溅ASMR + 空灵古琴泛音 → 5-10s 狼毫触碰素坯沙沙吸水声 → 10-15s 柴窑烈火低频轰鸣与深沉大提琴余音衰减",
       "sfx_prompt_en": "Wet clay spinning on potter wheel and water splashes transitioning into brush stroke on clay, then swelling into roaring kiln fire, crackling embers, and emotional cello",
-      "flow_video_prompt_en": "A continuous, unbroken 15-second cinematic macro camera journey through the birth of Jingdezhen porcelain with native Mandarin voiceover and synchronized foley sound design. Clean cinematic footage without any on-screen text or subtitles. [Visual & Camera]: From 0 to 5 seconds, an overhead close-up captures weathered artisan hands shaping wet spinning white clay on a potter's wheel as shimmering water droplets fly in slow motion. From 5 to 10 seconds, the camera smoothly spirals down to a macro side-profile as a fine calligraphy brush strokes deep cobalt-blue pigment onto the spinning clay, the blue ink blooming organically across the surface. From 10 to 15 seconds, roaring golden kiln flames erupt around the vessel, melting the matte clay into a glowing, translucent liquid-glass porcelain glaze; in the final second, the lens racks completely out of focus, dissolving the golden fire and floating embers into fullscreen creamy circular golden bokeh light orbs. [Native Audio & SFX]: Synchronized high-fidelity ASMR sound of wet clay spinning and water droplets splashing (0-5s), soft calligraphy brush bristles stroking porous clay (5-10s), and deep roaring wood-kiln flames with crackling pine embers (10-15s), underscored by ethereal Guqin harmonics building into a deep emotional cello melody. [Voiceover]: A consistent warm, deep, magnetic male documentary narrator speaks in standard Mandarin Chinese with calm poetic cadence: \"一捧高岭土，在掌心苏醒；落笔千钧，藏山河于方寸；千度烈焰里，淬炼不灭的温润。\" [Global Visual Lock]: Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text.",
-      "keyframe_image_prompt_en": "[可选：若在 Flow 中分段使用 8s Base + 7s SceneBuilder Extend（纯净无字版）]\n• Base (0-8s Prompt): Overhead close-up of weathered artisan hands shaping wet spinning porcelain clay on a potter's wheel with water droplets flying in slow motion, then camera smoothly spirals down to a macro side view as a calligraphy brush paints deep cobalt-blue cloud motifs onto the clay surface. [Audio & Voiceover]: Tactile wet clay spinning ASMR, gentle water splashes, and ethereal Guqin notes; a warm, deep magnetic male narrator speaks in standard Mandarin Chinese: \"一捧高岭土，在掌心苏醒；落笔千钧，藏山河于方寸。\" Clean frame without text. Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, 8k.\n• Extend (+7s to 15s Prompt): Camera continues tracking around the painted porcelain vessel as roaring golden wood-kiln flames ignite around it, melting the surface into a shimmering translucent glass glaze, then the lens racks completely out of focus into fullscreen glowing golden bokeh light orbs. [Audio & Voiceover]: Roaring kiln fire, crackling embers, and deep emotional cello; the same warm, deep magnetic male narrator continues in standard Mandarin Chinese: \"千度烈焰里，淬炼不灭的温润。\" Clean frame without text."
+      "flow_video_prompt_en": "A continuous, unbroken 15-second cinematic macro camera journey through the birth of Jingdezhen porcelain with native Mandarin voiceover and synchronized foley sound design. [Visual & Camera]: From 0 to 5 seconds, an overhead close-up captures weathered artisan hands shaping wet spinning white clay on a potter's wheel as shimmering water droplets fly in slow motion. From 5 to 10 seconds, the camera smoothly spirals down to a macro side-profile as a fine calligraphy brush strokes deep cobalt-blue pigment onto the spinning clay, the blue ink blooming organically across the surface. From 10 to 13.5 seconds, roaring golden kiln flames erupt around the vessel, melting the matte clay into a glowing, translucent liquid-glass porcelain glaze. From 13.5 to 15 seconds, the lens racks completely out of focus, dissolving the golden fire and floating embers into fullscreen creamy circular golden bokeh light orbs as a transition hold. [Native Audio & SFX]: Synchronized high-fidelity ASMR sound of wet clay spinning and water droplets splashing (0-5s), soft calligraphy brush bristles stroking porous clay (5-10s), and deep roaring wood-kiln flames with crackling pine embers (10-15s), underscored by ethereal Guqin harmonics building into a deep emotional cello melody. [Voiceover]: Audio & Voice Lock: Consistent warm, deep, magnetic male Mandarin Chinese documentary narrator voice (calm, poetic CCTV documentary cadence, studio condenser microphone clarity), accompanied by ethereal Guqin harmonics, tactile porcelain foley ASMR, and a building cinematic orchestral cello score. The narrator speaks in standard Mandarin Chinese, finishing all speech cleanly before 13.5 seconds: \"一捧高岭土，在掌心苏醒。落笔素批上，藏山河方寸。千度烈焰里，淬炼温润……\" From 13.5 to 15 seconds, strictly no speech—only warm fire ambiance and cello resonance decay. [Global Visual Lock]: Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text, no subtitles, no watermarks, no UI borders.",
+      "keyframe_image_prompt_en": "[可选：若在 Flow 中分段使用 8s Base + 7s SceneBuilder Extend（纯净无字防吞尾版）]\n• Base (0-8s Prompt): Overhead close-up of weathered artisan hands shaping wet spinning porcelain clay on a potter's wheel with water droplets flying in slow motion, then camera smoothly spirals down to a macro side view as a calligraphy brush paints deep cobalt-blue cloud motifs onto the clay surface. [Audio & Voiceover]: Tactile wet clay spinning ASMR, gentle water splashes, and ethereal Guqin notes; a warm, deep magnetic male narrator speaks in standard Mandarin Chinese before 6.5s: \"一捧高岭土，在掌心苏醒。落笔素批上，藏山河方寸……\" Clean frame without text, no subtitles, no UI borders. Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, 8k.\n• Extend (+7s to 15s Prompt): Camera continues tracking around the painted porcelain vessel as roaring golden wood-kiln flames ignite around it, melting the surface into a shimmering translucent glass glaze, then at 13.5s the lens racks completely out of focus into fullscreen glowing golden bokeh light orbs. [Audio & Voiceover]: Roaring kiln fire, crackling embers, and deep emotional cello; the same warm, deep magnetic male narrator finishes speaking before 5.5s of this extension: \"千度烈焰里，淬炼温润……\" Final 1.5s holds pure fire bokeh without speech. Clean frame without text."
     },
     {
       "shot_id": "CLIP 02 (下篇 15s)",
-      "phase_name": "下篇：器成天下 · 从烟雨古镇到千年瓷都盛景（纯净画面 · 含原生配音）",
+      "phase_name": "下篇：器成天下 · 从烟雨古镇到千年瓷都落版（13.2s 旁白收束 + 落版留白）",
       "timeline": "00:15 - 00:30",
       "edit_duration_sec": 15,
       "flow_gen_duration_sec": 15,
+      "vo_safe_cutoff_sec": 13.5,
       "gen_mode_badge": "T2V 音画配音一体 / 可选垫图 · 15s 直出",
-      "gen_mode_reason": "第二段 15s 聚焦『境、器、城』宏大空间转换，Prompt 中直接锁定与第一段完全相同的央视纪录片磁性男中音旁白、清脆冰裂开片声与恢弘东方交响乐高潮，画面保持极简纯净，落版大字由后期剪辑添加。",
-      "visual_summary_zh": "【15-20s】金色光斑对焦为瑶里古镇烟雨江面与竹筏 → 【20-25s】镜头掠过古建木柱无缝切入展厅环绕传世青花梅瓶 → 【25-30s】顺瓶口向上穿出御窑博物馆红砖拱顶，蓝调夜色航拍全景定格。",
-      "visual_detail_zh": "• [00:15-00:20] 画面从满屏温暖的金色散景光斑（无缝承接上篇结尾的火光光斑）平滑对焦（Rack focus in），化作清晨阳光洒在景德镇瑶里古镇碧绿河面上的粼粼波光，青色晨雾笼罩着黛瓦白墙与一叶竹筏（配音：『天青色等烟雨，而千年在等你』）；\n• [00:20-00:25] 摄影机向右平滑擦过一根深色廊桥木柱作为前景自然遮罩（Foreground wipe transition），走出阴影时已置身于光影静谧的御窑展厅，镜头环绕一尊温润如玉的明代青花云龙纹梅瓶，琥珀色追光掠过细腻的金色冰裂纹釉面（配音：『一器成，而天下知』）；\n• [00:25-00:30] 镜头顺着梅瓶浑圆的瓶口向上仰拍升起，直接向上穿出景德镇御窑博物馆标志性的红砖双曲拱顶建筑，无缝转为宏大的蓝调时刻（Blue Hour）无人机航拍向后拉升，温暖的红砖窑拱灯光对称倒映在镜面水池中，画面中央开阔留白定格，伴随配音收尾（配音：『千年窑火，生生不息——中国，景德镇。』）。",
-      "camera_movement_zh": "15s 一镜到底：散景光斑由虚变实对焦江面（15-20s）→ 向右擦过深色立柱前景遮罩进入环绕梅瓶特写（20-25s）→ 向上仰拍升起穿出红砖拱顶转为大航拍后拉全景（25-30s）",
+      "gen_mode_reason": "聚焦『境、器、城』宏大空间转换；锁定同一央视纪录片男中音音色，旁白在 13.2s 前稳稳收束，最后 1.8s 留出对称航拍镜面构图供 Python (PIL) 自动淡入『中国 · 景德镇』落版大字。",
+      "visual_summary_zh": "【15-20s】金色光斑对焦为瑶里古镇烟雨江面与竹筏 → 【20-25s】镜头掠过古建木柱遮罩切入展厅环绕传世青花梅瓶 → 【25-30s】顺瓶口升起穿出御窑博物馆红砖拱顶，蓝调夜色航拍对称定格留白。",
+      "visual_detail_zh": "• [00:15-00:20] 画面从满屏温暖的金色散景光斑（无缝承接上篇结尾的火光光斑）平滑对焦（Rack focus in），化作清晨阳光洒在景德镇瑶里古镇碧绿河面上的粼粼波光，青色晨雾笼罩着黛瓦白墙与一叶竹筏（配音：『天青色等烟雨，千年在等你』）；\n• [00:20-00:25] 摄影机向右平滑擦过一根深色廊桥木柱作为前景自然遮罩（Foreground wipe transition），走出阴影时已置身于光影静谧的御窑展厅，镜头环绕一尊温润如玉的明代青花云龙纹梅瓶，琥珀色追光掠过细腻的金色冰裂纹釉面（配音：『一器成，天下知』）；\n• [00:25-00:28.2] 镜头顺着梅瓶浑圆的瓶口向上仰拍升起，无缝穿出景德镇御窑博物馆标志性的红砖双曲拱顶建筑，转为宏大的蓝调时刻（Blue Hour）无人机航拍向后拉升（配音收束：『窑火生生不息，中国景德镇……』）；\n• [00:28.2-00:30] 落版呼吸留白：不再开口说话，温暖的红砖窑拱灯光对称倒映在镜面水池中，画面中央开阔纯净留白，伴随清越瓷鸣余音定格（后期脚本自动在此区间淡入『中国 · 景德镇』书法落版）。",
+      "camera_movement_zh": "15s 一镜到底：散景光斑由虚变实对焦江面（15-20s）→ 向右擦过深色立柱前景遮罩进入环绕梅瓶特写（20-25s）→ 向上仰拍升起穿出红砖拱顶转为大航拍后拉对称定格（25-30s）",
       "entry_bridge_zh": "承接上篇 15s 结尾的满屏金色散景光斑与大提琴余音：一声清脆的瓷器开片声切入，从金色光斑平滑对焦至江面波光。",
-      "transition_type": "HERO_LOCK (尾镜对称航拍定格 + 瓷鸣余音)",
-      "transition_to_next_zh": "第 30 秒成片收尾：航拍定格于御窑博物馆红砖穹顶与镜面水池的绝美对称倒影，伴随一声清越悠长的瓷鸣余音淡出，后期可在此画面浮现品牌书法落版大字。",
-      "voiceover_zh": "天青色等烟雨，而千年在等你；一器成，而天下知。千年窑火，生生不息——中国，景德镇。",
-      "sfx_zh": "15-20s 清脆冰裂开片声（叮——）与悠远江水声 → 20-25s 恢弘东方交响弦乐渐强 → 25-30s 管弦乐史诗级高潮收束于一声清澈悠长的瓷器共鸣音",
+      "transition_type": "SCENE_EXTEND",
+      "transition_to_next_zh": "第 30 秒成片收尾：航拍定格于御窑博物馆红砖穹顶与镜面水池的绝美对称倒影，13.2s 后无旁白留白，由 assemble_master.py 自动渲染落版大字并淡出。",
+      "voiceover_zh": "天青色等烟雨，千年在等你；一器成，天下知。窑火生生不息，中国，景德镇。",
+      "subtitle_display_zh": "天青色等烟雨，千年在等你；一器成，天下知。窑火生生不息，中国，景德镇。",
+      "voiceover_phonetic_zh": "天青色等烟雨，千年在等你。一器成，天下知。窑火生生不息，中国，景德镇……",
+      "subtitle_cues": [
+        {
+          "start": 0.5,
+          "end": 4.6,
+          "text_zh": "天青色等烟雨，千年在等你",
+          "text_en": "Misty cyan awaits the rain, as millennia await you"
+        },
+        {
+          "start": 5.1,
+          "end": 8.4,
+          "text_zh": "一器成，天下知",
+          "text_en": "One vessel perfected, known across the world"
+        },
+        {
+          "start": 8.9,
+          "end": 12.8,
+          "text_zh": "窑火生生不息 · 中国景德镇",
+          "text_en": "Eternal kiln fire — Jingdezhen, China"
+        }
+      ],
+      "sfx_zh": "15-20s 清脆冰裂开片声（叮——）与悠远江水声 → 20-25s 恢弘东方交响弦乐渐强 → 25-30s 管弦乐高潮收束于一声长达 2 秒的清澈瓷器共鸣余音",
       "sfx_prompt_en": "Crystalline porcelain ice-crackle chime and gentle river water transitioning into a swelling orchestral strings climax, ending with a single pure resonant porcelain ring",
-      "flow_video_prompt_en": "A continuous, unbroken 15-second cinematic camera journey from ancient misty river to monumental porcelain architecture with native Mandarin voiceover and synchronized foley sound design. Clean cinematic footage without any on-screen text or titles. [Visual & Camera]: From 0 to 5 seconds, the shot starts completely out of focus with fullscreen glowing golden bokeh orbs, smoothly racking focus into sunlight shimmering on a jade-green river in misty Yaoli ancient town with white-walled heritage houses. From 5 to 10 seconds, the camera glides right, passing closely behind a dark wooden pillar that wipes the frame and reveals a museum-grade Ming-style blue-and-white porcelain Meiping vase glowing under an amber spotlight with delicate ice-crackle glaze texture. From 10 to 15 seconds, the camera cranes upward above the circular vase rim, rising seamlessly out of the iconic curved red-brick kiln arches of the Jingdezhen Imperial Kiln Museum into a sweeping twilight blue-hour aerial pull-back shot, with warm amber arch lights reflecting symmetrically in tranquil mirror pools below. [Native Audio & SFX]: Opens with a delicate crystalline porcelain ice-crackle chime and gentle river water flow (0-5s), swelling into an epic oriental orchestral strings and deep sub-bass score (5-12s), resolving at 14 seconds into a single pure, long-resonating porcelain chime. [Voiceover]: The exact same warm, deep, magnetic male documentary narrator speaks in standard Mandarin Chinese with calm poetic cadence: \"天青色等烟雨，而千年在等你；一器成，而天下知。千年窑火，生生不息——中国，景德镇。\" [Global Visual Lock]: Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text.",
-      "keyframe_image_prompt_en": "[可选：若在 Flow 中分段使用 8s Base + 7s SceneBuilder Extend（纯净无字版）]\n• Base (15-23s Prompt): Starts completely out of focus with glowing golden bokeh orbs, smoothly racking focus into morning sunlight shimmering on a misty jade-green river in Yaoli ancient town, then the camera glides right past a dark wooden foreground pillar to reveal a masterpiece blue-and-white porcelain Meiping vase glowing under a warm amber spotlight. [Audio & Voiceover]: Opens with a delicate crystalline porcelain ice-crackle chime, gentle river water, and swelling orchestral strings; a warm, deep magnetic male narrator speaks in standard Mandarin Chinese: \"天青色等烟雨，而千年在等你；一器成，而天下知。\" Clean frame without text. Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber lighting with deep jade-cyan shadows, 8k.\n• Extend (+7s to 30s Prompt): Camera cranes upward from the blue-and-white porcelain vase, rising seamlessly above the curved red-brick kiln vaults of the Jingdezhen Imperial Kiln Museum and pulling back into a grand twilight blue-hour aerial wide shot with warm amber lights reflecting symmetrically in mirror water pools. [Audio & Voiceover]: Epic orchestral climax resolving into a single pure resonant porcelain ring; the same warm, deep magnetic male narrator speaks in standard Mandarin Chinese: \"千年窑火，生生不息——中国，景德镇。\" Clean frame without text."
+      "flow_video_prompt_en": "A continuous, unbroken 15-second cinematic camera journey from ancient misty river to monumental porcelain architecture with native Mandarin voiceover and synchronized foley sound design. [Visual & Camera]: From 0 to 5 seconds, the shot starts completely out of focus with fullscreen glowing golden bokeh orbs, smoothly racking focus into sunlight shimmering on a jade-green river in misty Yaoli ancient town with white-walled heritage houses. From 5 to 10 seconds, the camera glides right, passing closely behind a dark wooden pillar that wipes the frame and reveals a museum-grade Ming-style blue-and-white porcelain vase (Qinghua Meiping), translucent ivory-white jade-like glaze, cobalt-blue hand-painted swirling cloud motifs, delicate golden ice-crackle glaze network glowing under an amber spotlight. From 10 to 15 seconds, the camera cranes upward above the circular vase rim, rising seamlessly out of the iconic curved red-brick kiln arches of the Jingdezhen Imperial Kiln Museum into a sweeping twilight blue-hour aerial pull-back shot, holding a steady symmetrical composition over tranquil mirror pools for the final 1.8 seconds. [Native Audio & SFX]: Opens with a delicate crystalline porcelain ice-crackle chime and gentle river water flow (0-5s), swelling into an epic oriental orchestral strings and deep sub-bass score (5-13s), resolving at 13.5 seconds into a single pure, long-resonating porcelain chime. [Voiceover]: Audio & Voice Lock: Consistent warm, deep, magnetic male Mandarin Chinese documentary narrator voice (calm, poetic CCTV documentary cadence, studio condenser microphone clarity), accompanied by ethereal Guqin harmonics, tactile porcelain foley ASMR, and a building cinematic orchestral cello score. The exact same narrator speaks in standard Mandarin Chinese, finishing all speech cleanly before 13.2 seconds: \"天青色等烟雨，千年在等你。一器成，天下知。窑火生生不息，中国，景德镇……\" From 13.2 to 15 seconds, strictly no speech—hold silent visual symmetry and resonant porcelain chime decay. [Global Visual Lock]: Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber kiln rim lighting contrasting with deep jade-cyan shadows, volumetric atmospheric mist, cinematic commercial color grading, ultra-detailed textures, photorealistic, 8k, continuous fluid gimbal movement, clean frame without text, no subtitles, no watermarks, no UI borders.",
+      "keyframe_image_prompt_en": "[可选：若在 Flow 中分段使用 8s Base + 7s SceneBuilder Extend（纯净无字防吞尾版）]\n• Base (15-23s Prompt): Starts completely out of focus with glowing golden bokeh orbs, smoothly racking focus into morning sunlight shimmering on a misty jade-green river in Yaoli ancient town, then the camera glides right past a dark wooden foreground pillar to reveal a museum-grade Ming-style blue-and-white porcelain Meiping vase glowing under a warm amber spotlight. [Audio & Voiceover]: Opens with a delicate crystalline porcelain ice-crackle chime, gentle river water, and swelling orchestral strings; a warm, deep magnetic male narrator speaks in standard Mandarin Chinese before 6.5s: \"天青色等烟雨，千年在等你。一器成，天下知……\" Clean frame without text, no subtitles, no UI borders. Shot on ARRI Alexa 65, Panavision Primo 70 anamorphic lens, Kodak Vision3 500T 35mm film grain, warm amber lighting with deep jade-cyan shadows, 8k.\n• Extend (+7s to 30s Prompt): Camera cranes upward from the blue-and-white porcelain vase, rising seamlessly above the curved red-brick kiln vaults of the Jingdezhen Imperial Kiln Museum and pulling back into a grand twilight blue-hour aerial wide shot with warm amber lights reflecting symmetrically in mirror water pools. [Audio & Voiceover]: Epic orchestral climax resolving into a single pure resonant porcelain ring; the same warm, deep magnetic male narrator finishes speaking before 5.2s of this extension: \"窑火生生不息，中国，景德镇……\" Final 1.8s holds silent symmetry without speech. Clean frame without text."
     }
   ]
 }

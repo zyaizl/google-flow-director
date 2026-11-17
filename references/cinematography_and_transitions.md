@@ -78,13 +78,45 @@ To prevent the narrator's voice from changing between Clip 1 and Clip 2, every p
 - **Tech & Product Launch Narrator (科技数码/现代极客旁白)**
   - `Audio Lock: Consistent crisp, confident, modern mid-range Mandarin Chinese narrator voice (Apple keynote commercial cadence, clean articulation), paired with precision high-tech foley sound design and deep sub-bass pulse.`
 
-### 4.2 Standard All-in-One Prompt Structure for Google Flow (Clean Frame, No AI Subtitles)
+### 4.2 Standard All-in-One Prompt Structure for Google Flow (Clean Frame + Safe Cutoff)
 
-Every `flow_video_prompt_en` MUST weave Visuals, Continuous Camera, Native Voiceover, and Synchronized SFX/Music into one cohesive prompt block ready to paste into Google Flow:
+Every `flow_video_prompt_en` MUST weave Visuals, Continuous Camera, Native Voiceover (using the **phonetic safe track**), Speech Cutoff Guard, and Synchronized SFX/Music into one cohesive prompt block ready for Google Flow:
 
 ```text
-[Visual & Camera]: <Detailed continuous camera movement and visual action across the timeline...>
+[Visual & Camera]: <Detailed continuous camera movement and visual action across the timeline, reserving the final 1.5s for pure visual hold or bokeh/wipe transition...>
 [Native Audio & SFX]: Synchronized high-fidelity foley sound of <specific actions at specific moments>, blending with <BGM style and emotional progression>.
-[Voiceover]: A consistent <Voice Lock Profile> speaks in clear, standard Mandarin Chinese: "<Exact Chinese VO Script>".
-[Global Visual Lock]: <Exact Global Style Suffix>
+[Voiceover]: A consistent <Voice Lock Profile> speaks in clear, standard Mandarin Chinese, finishing all speech cleanly before <Duration - 1.5> seconds: "<Phonetic-Safe Chinese VO Script ending with ……>". From <Duration - 1.5>s to <Duration>s, strictly no speech—hold pure visual resonance and ambient music decay.
+[Global Visual Lock]: <Exact Global Style Suffix>, clean frame without text, no subtitles, no watermarks, no UI borders.
 ```
+
+---
+
+## 5. Production Guardrails: Dual-Track Voiceover, Anti-Clipping & Model Boundary Rules
+
+Adapted from real-world Google Flow (Veo / Omni) production telemetry to eliminate clipped endings, mispronounced Chinese polyphones, and visual warping:
+
+### 5.1 Dual-Track Script Mechanism (`voiceover_phonetic_zh` vs. `subtitle_display_zh`)
+
+Video models frequently mispronounce Chinese polyphones in poetic or historical contexts (e.g., reading `素坯 pī` as `pēi`, `古乐 yuè` as `lè`, `千钧 jūn` or `重 chóng/zhòng`) and clip final light syllables when encountering a hard period `。`.
+
+| Track Field | Target Consumer | Formatting Rules | Example |
+| :--- | :--- | :--- | :--- |
+| **`voiceover_phonetic_zh`** | Injected into `flow_video_prompt_en` for AI vocal synthesis | Replace ambiguous polyphones/rare chars with **unambiguous homophones**; split long sentences into **short clauses (≤14 chars)**; always append trailing **`……`** (+0.25s breath decay buffer). | `"一捧高岭土，在掌心苏醒。落笔千钧，藏山河于方寸。千度烈焰里，淬炼不灭的温润……"`（如遇“素坯”写作“素批”） |
+| **`subtitle_display_zh`** | Displayed in `.md`/`.html` & rendered onto `final_master.mp4` by `assemble_master.py` | Keep **100% standard literary Chinese orthography** without homophone substitutions or trailing ellipses. | `"一捧高岭土，在掌心苏醒；落笔千钧，藏山河于方寸；千度烈焰里，淬炼不灭的温润。"` |
+
+### 5.2 Speech Safety Cutoff Line (防吞尾安全红线)
+
+- **15s Clip**: Total Chinese VO must be **≤ 36 characters** (at ~2.7 chars/sec) and **finish before `13.5s`**, leaving **`13.5s – 15.0s` (1.5s)** as a speech-free resonance & transition buffer.
+- **12s Clip**: Total Chinese VO must be **≤ 28 characters** and **finish before `10.5s`**, leaving **`10.5s – 12.0s` (1.5s)** as a silent visual hold.
+- **8s Clip**: Total Chinese VO must be **≤ 18 characters** and **finish before `6.5s`**.
+
+### 5.3 Common Google Flow (Veo / Omni) Failure Modes & Engineering Fixes
+
+| Anomaly | Root Cause | Prompt / Pipeline Fix |
+| :--- | :--- | :--- |
+| **Final syllable clipped off** | VO packed up to 14.5s/15s or hard stop on `。` | Enforce `Duration - 1.5s` speech cutoff + append `……` to `voiceover_phonetic_zh` + `ffmpeg tpad` tail clone (`+0.35s~0.45s`) in post. |
+| **Middle clause skipped** | Compound sentence > 20 chars without breath breaks | Break into short `8–14 char` clauses separated by `，` or `。`. |
+| **Garbled pseudo-text / watermarks** | Mentioning "title", "poster", "HUD", or "subtitles" in prompt | Enforce `clean frame without text, no subtitles, no UI borders`; render all titles/subtitles via `scripts/assemble_master.py` (`PIL` + `ffmpeg`). |
+| **Multi-person limb/lip chaos** | >3 characters in frame, simultaneous speech, or eating/fighting | Cap human shots at ≤3 people; specify `"Only [Role A] speaks; others keep lips closed"` if on-camera speech is used; avoid eating/tangled limbs. |
+| **Transition jump-cut jarring** | Mismatched luminance/motion between Clip N tail and Clip N+1 head | Pair `Exit Momentum` + `Entry Momentum`, verify via `inspect_clips.py` transition contact sheet, and blend with `assemble_master.py` `xfade`. |
+

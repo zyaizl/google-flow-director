@@ -1,65 +1,101 @@
-# 🎬 Google Flow Director (`google-flow-director`)
+# 🎬 Google Flow Director v2.0 (`google-flow-director`)
 
-专为 **Google Flow (Veo)** 打造的 AI 商业广告与宣传片导演工作台（Agent Skill + 自动化分镜导出引擎）。
+专为 **Google Flow (Veo)** 打造的 **AI 商业广告与宣传片端到端全自动制片流水线**（Agent Skill + 双角色审稿与预检引擎 + 多模视频获取 + `PIL/ffmpeg` 自动母带合成 + Google Drive 协同归档）。
 
-聚焦 **「城市文旅宣传片」**、**「品牌情绪 TVC」** 与 **「产品高光展示」** 三大商业视频方向，解决 Google Flow 单次生成 5s~15s 限制下的**多段视觉一致性**与**无缝转场桥接**难题。
-
----
-
-## ✨ 核心特性
-
-1. **全局视觉圣经（Global Visual Bible 一致性锁）**
-   - 自动为全片锁定摄影机型号、变形宽银幕/微距镜头焦段、胶片颗粒与色温光影基底（`style_suffix_en`），强制注入每个镜头的 Google Flow Prompt 尾部，确保 80% 纯文生视频（T2V）跨镜头画风高度统一。
-2. **纯文生为主 + 关键镜头按需首尾帧/垫图（80/20 黄金法则）**
-   - **T2V 纯文生**：大气风光、流体水墨、光影粒子、环境空镜直接纯文生。
-   - **I2V 首帧垫图（Ingredients）**：针对核心产品 SKU、品牌 Logo 或标志性器物，支持上传实拍产品图自动提取视觉 DNA，或输出高精首帧生图 Prompt。
-   - **F2V 首尾帧桥接**：针对高难度跨时空变形转场，精准定义首尾帧状态。
-3. **6 大电影级无缝转场矩阵（Transition Bridge）**
-   - 内置 `MATCH_SHAPE`（同心圆/几何图形匹配）、`WHIP_WIPE`（快速甩镜前景遮罩）、`SPEED_RAMP_DIVE`（微距极速穿入）、`LIGHT_BOKEH`（散景光斑失焦呼吸）、`MOTION_RELAY`（同向运动速度接力）与 `SCENE_EXTEND`（Flow 原生延展），让上一段结尾动势与下一段开头动势严丝合缝。
-4. **双模交付引擎（Markdown 执行单 + 交互式 HTML 故事板）**
-   - 一键输出商业级 `.md` 拍摄执行单与暗黑模式 `.html` 可视化导演工作台（含时间轴节奏条、转场连线胶囊、Google Flow / Suno BGM 一键复制按钮）。
+聚焦 **「城市文旅宣传片」**、**「品牌情绪 TVC」** 与 **「产品高光展示」** 三大商业视频方向，彻底打通从**一句话创意 → 人工脚本审核 → 纯净视频生成 → 转场咬合抽检 → 代码级宽银幕/字幕/落版合成 → 成片复核归档**的完整闭环。
 
 ---
 
-## 📂 仓库目录结构（代码与方法论层 — 部署于 GitHub）
+## ✨ v2.0 核心特性与工程壁垒
+
+1. **7 步全自动制片 + 强制人工脚本审核门禁（Human-in-the-Loop）**
+   - 内置**「商业主创导演 + 挑剔技术总监」双角色博弈写本**，自动剔除穿模动作并优化运镜；在进入视频批量生成前设置**强制人工整体脚本审核门禁**（`human_script_approved`），确保剧本、分镜与旁白完全符合你的心意后再开拍。
+2. **「13.5s 台词安全线 + 发音/字幕双轨词」防吞尾与防误读机制**
+   - **防吞尾红线**：15s 镜头强制在 `13.5s` 前结束旁白（≤36 字），预留最后 `1.5s` 纯画面光斑/空镜余韵，配合句末 `……` 延长 0.25s 呼吸衰减，根治句尾被腰斩。
+   - **双轨词隔离**：`voiceover_phonetic_zh`（送入 Flow Prompt 的同音唯一字防读错版，如『素坯→素批』）与 `subtitle_display_zh`（供后期脚本渲染高清字幕的标准正字版）自动分离。
+3. **常驻《项目铁律清单》与提交前代码级预检 (`validate_storyboard.py`)**
+   - 自动核查 `clean frame without text` 纯净无字锁、全局视觉/声音双锁 1:1 注入、字数安全上限、多音字预警与转场成对桥接，生成常驻质检清单防长对话遗忘。
+4. **云端/本地自适应多模视频获取与无损版本归档 (`generate_clips.py`)**
+   - 支持 **Veo API 云端直连 (`veo-api`)**、**Google Drive 云桥接拉取 (`drive-pull`)**、**本地/上传目录导入 (`local-import`)** 与 **桌面 Chrome 9222 远程接管 (`chrome-cdp`)**；所有素材按 `raw_clip_01_v1.mp4`、`_v2.mp4` 递增归档，绝不覆盖旧版。
+5. **Python (`PIL`) + `ffmpeg` 全自动商业母带合成 (`assemble_master.py`)**
+   - 告别手工开剪映/PR 排字幕：自动执行 `tpad` 首尾静止帧留白、转场匹配 `xfade` 无缝叠化、像素级渲染 **2.35:1 宽银幕遮幅 + 秒级中英双语字幕条 + 片尾城市/品牌书法级落版大字淡入** + `loudnorm` 广播级响度标准化，一键输出 `<slug>_final_master.mp4`。
+6. **首尾转场咬合抽检与初次看片 2fps 成片体检 (`inspect_clips.py`)**
+   - 原片阶段自动生成 **1fps 检视条 + 上镜尾/下镜首转场咬合对比图 + 句尾音频截断检测**；成片阶段自动执行 **全片 2fps 抽帧 + 切镜点 ±3 帧复核** 并输出体检报告。
+
+---
+
+## 📂 仓库目录结构
 
 ```text
 google-flow-director/
-├── SKILL.md                                     # Agent Skill 核心工作流与 JSON 规范
-├── README.md                                    # 项目架构与使用文档
+├── SKILL.md                                     # 7 步端到端全自动制片 Skill 规范（含人工脚本审核门禁）
+├── README.md                                    # 项目架构、云端/本地模式说明与 CLI 手册
 ├── references/
-│   └── cinematography_and_transitions.md        # 商业摄影机后缀词库与 6 大无缝转场公式
+│   └── cinematography_and_transitions.md        # 商业摄影后缀词库、6 大无缝转场矩阵、双轨防吞尾与避坑标准
 ├── scripts/
-│   ├── export_storyboard.py                     # Markdown + 交互式 HTML 故事板编译引擎
-│   └── sync_to_drive.py                         # 一键同步项目成片分镜与资产至 Google Drive
+│   ├── validate_storyboard.py                   # 提交前技术总监预检器 & 常驻《项目铁律清单》生成器
+│   ├── export_storyboard.py                     # Markdown 执行单 + 交互式 HTML 故事板编译引擎（集成预检）
+│   ├── generate_clips.py                        # 多模视频获取与 _v1/_v2 无损归档（Veo API / Drive / Upload / CDP）
+│   ├── inspect_clips.py                         # 原片转场咬合抽检 & 成片 2fps + 切点 ±3 帧体检引擎
+│   ├── assemble_master.py                       # Python (PIL) + ffmpeg 商业宽银幕/双语字幕/落版自动母带合成器
+│   └── sync_to_drive.py                         # Google Drive 全生命周期双向归档工具
 └── examples/
-    └── jingdezhen_tourism_30s.json              # 实战样片：《景德镇：千年窑火》30s 分镜 JSON
+    └── jingdezhen_tourism_30s.json              # 实战样片：《景德镇：千年窑火》v2 双轨配音与自动母带完整配置
 ```
 
 ---
 
-## ☁️ GitHub 与 Google Drive 云盘协同分工架构
+## ☁️ 云端 Remote 环境 vs. 本地桌面环境：视频获取怎么选？
 
-为了保证代码版本干净、资产存储安全高效，本项目采用 **「GitHub 管引擎与方法论 + Google Drive 管项目剧本与多媒体资产」** 的双云架构：
-
-| 平台 | 存放内容 | 原因与优势 |
+| 运行环境 | 能否用 Chrome 9222 接管本地浏览器？ | 推荐全自动方案 |
 | :--- | :--- | :--- |
-| **GitHub 仓库** (`google-flow-director`) | `SKILL.md` 提示词工程架构、摄影与转场词库 (`references/`)、自动化导出与同步脚本 (`scripts/`)、标准 JSON 模板 (`examples/`) | 适合版本控制、跨设备/跨环境拉取 Skill、持续迭代导演算法与转场词库。 |
-| **Google Drive 云盘** (`Google_Flow_Director_Projects/`) | 每次生成的具体项目文件夹：包含 `.md` 分镜执行单（可在线转 Google Docs 协作）、`.html` 交互故事板、`.json` 分镜源数据、上传的**产品实拍参考图/首尾帧垫图**、以及 Google Flow 生成的 `.mp4` 视频片段 | 适合存放大图、视频素材与每次产出的业务分镜文档，方便手机/电脑随时查看与团队共享。 |
+| **云端 Remote 沙箱**<br>*(当前 Antigravity Cloud VM)* | ❌ **不能直接连本地电脑浏览器**<br>云端容器与本地电脑网络隔离，且无头浏览器登录个人 Google Labs 易触发异地风控/验证码拦截。 | 1. **纯云端全自动 (`--mode veo-api`)**：配置 `GEMINI_API_KEY`（并放行 `generativelanguage.googleapis.com`），云端直接调官方 Veo API 批量生成下载。<br>2. **云桥接半自动 (`--mode drive-pull` / `local-import`)**：在 HTML 故事板一键复制 Prompt 到你本地浏览器 Flow 生成，原片拖入对话框上传或 Google Drive，**云端自动拉取 → 抽检 → `PIL+ffmpeg` 合成成片母带 → 推回云盘**！ |
+| **本地桌面电脑**<br>*(Mac / Windows / Linux)* | ✅ **原生支持 (`--mode chrome-cdp`)** | 本地以 `--remote-debugging-port=9222` 启动已登录 Google Flow 的 Chrome，直接接管浏览器批量生成并归档。 |
 
 ---
 
-## 🚀 快速使用命令
+## 🚀 端到端全流程 CLI 快速命令
 
-### 1. 编译生成本地 Markdown 执行单与 HTML 交互故事板
+### 1. 提交前铁律预检 + 导出 Markdown 执行单与交互式 HTML 故事板
 
 ```bash
 python3 scripts/export_storyboard.py examples/jingdezhen_tourism_30s.json \
-  --out-dir ./output
+  --out-dir /home/antigravity/flow_projects
 ```
 
-### 2. 将生成的项目资产一键归档至 Google Drive 云盘
+### 2. 获取与归档视频片段（以测试合成样片或本地导入为例）
 
 ```bash
-python3 scripts/sync_to_drive.py --project-dir /home/antigravity/flow_projects
+# 干跑实测整条后期合成管线（自动生成带光斑过渡与安全收音的 1080p 测试原片）：
+python3 scripts/generate_clips.py examples/jingdezhen_tourism_30s.json \
+  --mode demo-synthetic --project-dir /home/antigravity/flow_projects
+
+# 实际生产：导入上传目录原片 / 从 Google Drive 拉取 / 调用 Veo API：
+# python3 scripts/generate_clips.py examples/jingdezhen_tourism_30s.json --mode local-import
+# python3 scripts/generate_clips.py examples/jingdezhen_tourism_30s.json --mode drive-pull
+# GEMINI_API_KEY=xxx python3 scripts/generate_clips.py examples/jingdezhen_tourism_30s.json --mode veo-api
+```
+
+### 3. 原片 1fps 抽帧与首尾转场咬合质检
+
+```bash
+python3 scripts/inspect_clips.py examples/jingdezhen_tourism_30s.json \
+  --mode raw --project-dir /home/antigravity/flow_projects
+```
+
+### 4. Python (`PIL`) + `ffmpeg` 全自动商业母带合成（宽银幕 + 双语字幕 + 书法落版）
+
+```bash
+python3 scripts/assemble_master.py examples/jingdezhen_tourism_30s.json \
+  --project-dir /home/antigravity/flow_projects
+```
+
+### 5. 成片 2fps 全片抽帧与切镜点 ±3 帧体检 + Google Drive 全资产归档
+
+```bash
+python3 scripts/inspect_clips.py examples/jingdezhen_tourism_30s.json \
+  --mode master --project-dir /home/antigravity/flow_projects
+
+python3 scripts/sync_to_drive.py \
+  --project-dir /home/antigravity/flow_projects --slug jingdezhen_tourism_30s
 ```
